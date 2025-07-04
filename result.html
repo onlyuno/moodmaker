@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>음악 추천</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>예측 결과</h1>
+    <p>분석된 장소는 <strong>{{ prediction }}</strong> 입니다.</p>
+    <a href="/">다시 업로드하기</a>
+</body>
+</html>

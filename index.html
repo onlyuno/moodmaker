@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Moodmaker 2.0</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>test1</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <label for="file">이미지 선택:</label>
+        <input type="file" id="file" name="file" accept="image/*" required>
+        <button type="submit">분석하기</button>
+    </form>
+</body>
+</html>
