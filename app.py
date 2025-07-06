@@ -50,8 +50,7 @@ def predict():
     if file.filename == '':
         return "파일 이름이 없습니다.", 400
 
-    upload_path = os.path.join("uploads", file.filename)
-    os.makedirs("uploads", exist_ok=True)
+    upload_path = os.path.join("/tmp", file.filename)
     file.save(upload_path)
 
     pred_idx = predict_image(upload_path)
