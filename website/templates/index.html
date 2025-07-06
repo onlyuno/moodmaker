@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <title>Moodmaker 2.0</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>test1</h1>
-    
-    <input type="text" id="inputBox" placeholder="텍스트 입력" />
-    <button onclick="sendInput()">분석하기</button>
-    
-    <div id="resultBox"></div>
+    <h1>사진으로 감성 분석</h1>
 
+    <input type="file" id="file" accept="image/*" required>
+    <button onclick="sendImage()">분석하기</button>
+
+    <div id="resultBox" style="margin-top: 20px;"></div>
+    
     <script src="main.js"></script>
 </body>
 </html>
