@@ -33,11 +33,6 @@ def predict_image(image_path):
         _, predicted = torch.max(outputs, 1)
     return predicted.item()
 
-from flask import Flask, request, jsonify
-import os
-
-app = Flask(__name__)
-
 @app.route("/")
 def home():
     return render_template("index.html")
