@@ -7,6 +7,6 @@ async function sendInput() {
         body: JSON.stringify({ input: input })
     });
 
-    const data = await response.json();
+    const data = await response.text();
     document.getElementById("resultBox").innerText = data.result;
 }
