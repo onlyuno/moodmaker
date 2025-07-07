@@ -17,7 +17,6 @@ def download_model():
 
     if not os.path.exists(MODEL_PATH):
         try:
-            import gdown
             gdown.download(url, MODEL_PATH, quiet=False)
             if os.path.exists(MODEL_PATH):
                 print("✅ 다운로드 성공")
