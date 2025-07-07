@@ -1,5 +1,5 @@
 import os
-import requests
+import gdown
 from flask import Flask, request, render_template
 import torch
 import torchvision.transforms as transforms
@@ -11,16 +11,14 @@ from flask import jsonify
 def download_model():
     MODEL_PATH = 'model_trained.pth'
     DRIVE_FILE_ID = '12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1'  # Google Drive 파일 ID로 변경하세요
-    DOWNLOAD_URL = f'https://drive.google.com/file/d/12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1/view?usp=drive_link={DRIVE_FILE_ID}'
+    url = f'https://drive.google.com/file/d/12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1/view?usp=drive_link={DRIVE_FILE_ID}'
 
     if not os.path.exists(MODEL_PATH):
-        print('모델 파일이 없어서 다운로드 중...')
-        response = requests.get(DOWNLOAD_URL)
-        with open(MODEL_PATH, 'wb') as f:
-            f.write(response.content)
-        print('모델 다운로드 완료.')
+        print('모델 다운로드 중...')
+        gdown.download(url, MODEL_PATH, quiet=False)
+        print('다운로드 완료.')
     else:
-        print('모델 파일이 이미 존재합니다.')
+        print('모델이 이미 존재합니다.')
 
 download_model()
 
