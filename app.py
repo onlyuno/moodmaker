@@ -13,20 +13,22 @@ def download_model():
     DRIVE_FILE_ID = '12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1'  # Google Drive 파일 ID로 변경하세요
     url = f'https://drive.google.com/uc?id={DRIVE_FILE_ID}'
 
+    print("📥 다운로드 시도 중:", url)
+
     if not os.path.exists(MODEL_PATH):
-        print('📥 모델 다운로드 중...')
         try:
+            import gdown
             gdown.download(url, MODEL_PATH, quiet=False)
             if os.path.exists(MODEL_PATH):
-                print('✅ 모델 다운로드 완료!')
+                print("✅ 다운로드 성공")
             else:
-                print('❌ 다운로드 실패: model_trained.pth 파일이 존재하지 않습니다.')
+                print("❌ 다운로드 실패: 파일이 존재하지 않음")
                 exit(1)
         except Exception as e:
-            print(f'❌ 다운로드 중 오류 발생: {e}')
+            print(f"❌ 다운로드 중 에러 발생: {e}")
             exit(1)
-        else:
-            print('📁 이미 모델 파일이 존재합니다.')
+    else:
+        print("📁 모델 파일이 이미 존재함")
 
 download_model()
 
