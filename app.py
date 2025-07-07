@@ -11,7 +11,8 @@ from flask import jsonify
 def download_model():
     MODEL_PATH = 'model_trained.pth'
     DRIVE_FILE_ID = '12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1'  # Google Drive 파일 ID로 변경하세요
-    url = f'https://drive.google.com/file/d/12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1/view?usp=drive_link={DRIVE_FILE_ID}'
+    url = f'https://drive.google.com/uc?id={DRIVE_FILE_ID}'
+
 
     if not os.path.exists(MODEL_PATH):
         print('모델 다운로드 중...')
