@@ -13,13 +13,20 @@ def download_model():
     DRIVE_FILE_ID = '12CSTGv0Gx8IXoCN4XZ8isSDsNe8wVoF1'  # Google Drive 파일 ID로 변경하세요
     url = f'https://drive.google.com/uc?id={DRIVE_FILE_ID}'
 
-
     if not os.path.exists(MODEL_PATH):
-        print('모델 다운로드 중...')
-        gdown.download(url, MODEL_PATH, quiet=False)
-        print('다운로드 완료.')
-    else:
-        print('모델이 이미 존재합니다.')
+        print('📥 모델 다운로드 중...')
+        try:
+            gdown.download(url, MODEL_PATH, quiet=False)
+            if os.path.exists(MODEL_PATH):
+                print('✅ 모델 다운로드 완료!')
+            else:
+                print('❌ 다운로드 실패: model_trained.pth 파일이 존재하지 않습니다.')
+                exit(1)
+        except Exception as e:
+            print(f'❌ 다운로드 중 오류 발생: {e}')
+            exit(1)
+        else:
+            print('📁 이미 모델 파일이 존재합니다.')
 
 download_model()
 
@@ -28,12 +35,18 @@ app = Flask(__name__)
 # --- 여기에 모델 불러오기 및 예측 함수 넣기 시작 ---
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = models.resnet18(pretrained=False)
+model = models.resnet18(weights=None)
 num_features = model.fc.in_features
 model.fc = nn.Linear(num_features, 8)  # 클래스 개수 맞게 설정
-model.load_state_dict(torch.load('model_trained.pth', map_location=device))
-model.to(device)
-model.eval()
+
+try:
+    model.load_state_dict(torch.load('model_trained.pth', map_location=device))
+    model.to(device)
+    model.eval()
+    print("✅ 모델 로딩 완료.")
+except Exception as e:
+    print(f"❌ 모델 로딩 실패: {e}")
+    exit(1)
 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -70,14 +83,14 @@ def predict():
     pred_idx = predict_image(upload_path)
 
     keywords_map = {
-        0: "city sunny day",
-        1: "mountain cloudy",
-        2: "beach sunset",
-        3: "forest rainy",
-        4: "night city lights",
-        5: "snow winter",
-        6: "desert hot",
-        7: "park spring flowers",
+        0: "beach_sunny_day",
+        1: "beach_night",
+        2: "city_sunny_day",
+        3: "city_rainy",
+        4: "city_night",
+        5: "city_snowy",
+        6: "forest_sunny_day",
+        7: "forest_snowy_day",
     }
     keyword = keywords_map.get(pred_idx, "unknown")
 
