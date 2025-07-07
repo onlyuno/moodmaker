@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 import torchvision.models as models
 import torch.nn as nn
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -45,7 +46,9 @@ def predict():
     if file.filename == '':
         return "파일 이름이 없습니다.", 400
 
-    upload_path = os.path.join("/tmp", file.filename)
+    upload_dir = os.path.join(os.getcwd(), "tmp")
+    os.makedirs(upload_dir, exist_ok=True)
+    upload_path = os.path.join(upload_dir, file.filename)
     file.save(upload_path)
 
     pred_idx = predict_image(upload_path)
@@ -62,7 +65,7 @@ def predict():
     }
     keyword = keywords_map.get(pred_idx, "unknown")
 
-    return render_template("result.html", prediction=keyword)
+    return jsonify({"prediction": keyword})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Render는 환경변수 PORT를 사용

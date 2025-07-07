@@ -6,6 +6,7 @@ import torch
 import torchvision.transforms as transforms
 import torchvision.models as models
 import torch.nn as nn
+from flask import jsonify
 
 app = Flask(__name__, template_folder='website/templates', static_folder='website/static')
 
@@ -51,7 +52,7 @@ def predict():
         pred = torch.argmax(output, 1).item()
         result = class_name[pred]
 
-    return render_template('result.html', prediction=result)
+    return jsonify({"prediction": result})
 
 # 서버 실행
 if __name__ == '__main__':
