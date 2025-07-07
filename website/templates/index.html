@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Moodmaker 2.0</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>사진으로 감성 분석</h1>
@@ -12,7 +12,7 @@
     <button onclick="sendImage()">분석하기</button>
 
     <div id="resultBox" style="margin-top: 20px;"></div>
-    
-    <script src="main.js"></script>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
