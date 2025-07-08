@@ -51,7 +51,7 @@ def get_tracks_by_mood(label):
     return tracks
 
 
-app = Flask(__name__, template_folder='website/templates', static_folder='website/static')
+app = Flask(__name__, template_folder='website/templates/index.html', static_folder='website/static')
 
 class_name = [
     'beach_sunny_day', 'beach_night', 'city_sunny_day', 'city_rainy',
@@ -105,4 +105,4 @@ def predict():
 # 서버 실행
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))  # 기본 8080
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
