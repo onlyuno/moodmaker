@@ -17,20 +17,30 @@ auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=clien
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 # 예시: forest_snowy_day → 분위기 키워드로 검색
-mood_keywords = {
-    "forest_snowy_day": "calm piano forest",
-    "city_night": "urban chill night",
-    "beach_sunny_day": "summer beach pop",
-    "city_rainy": "lofi rain city",
-    "city_sunny_day": "bright indie",
-    "city_snowy": "winter city calm",
-    "beach_night": "chill beach night",
-    "forest_sunny_day": "nature acoustic"
+import random
+
+# 키워드별 핵심 단어 리스트
+mood_word_lists = {
+    "forest_snowy_day": ["dark", "mysterious", "indie", "Sufjan", "Stevens", "ambient", "snowy", "forest", "ethereal", "acoustic"],
+    "city_night": ["rhythmic", "city", "pop", "R&B", "smooth", "urban", "chill", "bass", "laid-back", "night"],
+    "beach_sunny_day": ["bright", "summer", "pop", "chill", "beach", "waves", "fresh", "acoustic", "sunny", "uplifting"],
+    "city_rainy": ["jazzy", "acoustic", "cafe", "soft", "rainy", "day", "cozy", "blues", "melancholy", "indie"],
+    "city_sunny_day": ["energetic", "city", "walking", "pop", "powerful", "upbeat", "career", "woman", "anthem", "AJR"],
+    "city_snowy": ["warm", "winter", "city", "jazz", "soft", "Christmas", "carol", "holiday", "chill", "snowy"],
+    "beach_night": ["mysterious", "ocean", "acoustic", "Moana", "campfire", "chill", "soft", "youth", "ballad", "calm"],
+    "forest_sunny_day": ["bright", "sunny", "forest", "indie", "happy", "bird", "song", "fairytale", "warm", "nature"]
 }
 
 def get_tracks_by_mood(label):
-    query = mood_keywords.get(label, "relaxing music")
-    results = sp.search(q=query, type='track', limit=5)
+    words = mood_word_lists.get(label, ["relaxing", "music"])
+
+    # 2~3개 단어를 랜덤 선택해서 조합 (중복 없는 샘플링)
+    selected_words = random.sample(words, k=random.randint(2,3))
+    query = " ".join(selected_words)
+
+    offset = random.randint(0, 50)
+    results = sp.search(q=query, type='track', limit=5, offset=offset)
+    
     tracks = []
     for item in results['tracks']['items']:
         tracks.append({
@@ -39,6 +49,7 @@ def get_tracks_by_mood(label):
             'url': item['external_urls']['spotify']
         })
     return tracks
+
 
 app = Flask(__name__, template_folder='website/templates', static_folder='website/static')
 
